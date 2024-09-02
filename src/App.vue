@@ -5,7 +5,7 @@ import ProjectsForm from "./components/ProjectsForm.vue";
 
 <template>
   <div class="flex flex-col items-center justify-center w-full pb-24">
-    <h1 class="text-4xl text-red-600">Resume form</h1>
+    <h1 class="text-4xl text-slate-700 capitalize">enter your information</h1>
     <projectsForm/>
 
   </div>

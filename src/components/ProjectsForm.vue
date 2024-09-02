@@ -12,15 +12,15 @@
         </li>
         </ul>
         
-        <a-button class="w-28 self-center" v-if="!showForm" @click="toggleForm" type="primary" danger>add project</a-button>
+        <a-button class="w-28 self-center" v-if="!showForm" @click="toggleForm" type="primary" primary>add project</a-button>
         
-        <form v-if="showForm" @submit.prevent="addProject">
-            <a-input class="m-2" v-model:value="newProject.name" placeholder="Basic usage" />
-            <a-input class="m-2 " v-model:value="newProject.description" placeholder="Basic usage" />
-            <a-input class="m-2 " v-model:value="newProject.duration" placeholder="Basic usage" />
-            <a-input class="m-2 " v-model:value="newProject.technologies" placeholder="Basic usage" />
-            <a-textarea class="m-2 " v-model:value="value" placeholder="Basic usage" :rows="4" />
-            <a-button type="primary" html-type="submit" danger>Done!</a-button>
+        <form class="flex items-center justify-center flex-col" v-if="showForm" @submit.prevent="addProject">
+            <a-input class="m-2 p-2" v-model:value="newProject.name" placeholder="Basic usage" />
+            <a-input class="m-2 p-2 " v-model:value="newProject.description" placeholder="Basic usage" />
+            <a-input class="m-2 p-2 " v-model:value="newProject.duration" placeholder="Basic usage" />
+            <a-input class="m-2 p-2 " v-model:value="newProject.technologies" placeholder="Basic usage" />
+            <a-textarea class="m-2 p-2 " v-model:value="value" placeholder="Basic usage" :rows="4" />
+            <a-button class="ml-2 self-center" type="primary" html-type="submit" primary>Done!</a-button>
         </form>
     </div>
 </template>
