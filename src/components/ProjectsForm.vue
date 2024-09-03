@@ -1,63 +1,111 @@
 <template>
-
-    <div class="mt-10 flex w-full flex-col overflow-x-hidden">
-        <h2 class="self-center">Projects section </h2>
-        <ul>
-        <li v-for="project in projects" :key="project.id">
-            <div>{{ project.name }}</div>
-            <div>{{ project.description }}</div>
-            <div>{{ project.duration }}</div>
-            <div>{{ project.technologies }}</div>
-            <div>{{ project.details }}</div>
+    <div class="flex flex-col w-4/5 items-center justify-center capitalize bg-slate-50 ">
+      <header class="text-3xl pb-16">projects info</header>
+      <ul class="grid grid-cols-3">
+        <li v-for="(project, index) in projects" :key="project.id" class="flex flex-col mb-4 p-4 border rounded-lg">
+          <div><strong>Name:</strong> {{ project.name }}</div>
+          <div><strong>Description:</strong> {{ project.description }}</div>
+          <div><strong>Project Link:</strong> <a :href="project.projectLink" target="_blank">{{ project.projectLink }}</a></div>
+          
+          <a-button 
+            class="mt-2 self-start bg-red-500 text-white rounded" 
+            @click="removeProject(index)" 
+            type="primary"
+          >
+            Remove
+          </a-button>
         </li>
-        </ul>
-        
-        <a-button class="w-28 self-center" v-if="!showForm" @click="toggleForm" type="primary" primary>add project</a-button>
-        
-        <form class="flex items-center justify-center flex-col" v-if="showForm" @submit.prevent="addProject">
-            <a-input class="m-2 p-2" v-model:value="newProject.name" placeholder="Basic usage" />
-            <a-input class="m-2 p-2 " v-model:value="newProject.description" placeholder="Basic usage" />
-            <a-input class="m-2 p-2 " v-model:value="newProject.duration" placeholder="Basic usage" />
-            <a-input class="m-2 p-2 " v-model:value="newProject.technologies" placeholder="Basic usage" />
-            <a-textarea class="m-2 p-2 " v-model:value="value" placeholder="Basic usage" :rows="4" />
-            <a-button class="ml-2 self-center" type="primary" html-type="submit" primary>Done!</a-button>
+      </ul>
+  
+      <!-- Form for each project -->
+      <div 
+        v-for="(form, formIndex) in projectForms" 
+        :key="formIndex" 
+        class="flex items-center w-4/5 self-center justify-center flex-col mb-4" 
+      >
+        <form @submit.prevent="addProject(formIndex)" class="w-full">
+          <div class="grid grid-cols-2 gap-5"> 
+            <div>
+                <div>
+                    <label class="flex">title</label>
+                    <a-input
+                        class="m-2 p-2"
+                        v-model:value="form.name"
+                        placeholder="Project Name"
+                      />
+                </div>
+                <div class="mt-4">
+                    description
+                      <a-input
+                      class="m-2 p-2 sm:w-[54rem] w-[12rem]"
+                      v-model:value="form.description"
+                      placeholder="Project Description"
+                    />
+                </div>
+            </div>
+            <div>
+                    <label >link</label>
+                    <a-input
+                      class="m-2 p-2"
+                      v-model:value="form.projectLink"
+                      placeholder="Project Link"
+                    />
+                </div>
+                
+            
+          </div>
+          
+          <a-button 
+            class="ml-2 self-center" 
+            type="primary" 
+            html-type="submit"
+          >
+            Add
+          </a-button>
         </form>
+      </div>
+  
     </div>
-</template>
-
-    <script setup>
-    import { ref } from 'vue';
-
-    const projects = ref([
-    // Existing projects data
-    ]);
-
-    const showForm = ref(false);
-
-    const newProject = ref({
-    name: '',
-    description: '',
-    duration: '',
-    technologies: '',
-    details: ''
-    });
-
-    const toggleForm = () => {
-    showForm.value = !showForm.value;
-
-    };
-
-    const addProject = () => {
-    projects.value.push({ ...newProject.value, id: projects.value.length + 1 });
-    newProject.value = {
-        name: '',
-        description: '',
-        duration: '',
-        technologies: '',
-        details: ''
-    };
-    showForm.value = false;
-    };
-
-</script>
-
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  
+  // Define the projects array
+  const projects = ref([]);
+  
+  // Initialize project forms with one default form
+  const projectForms = ref([
+    {
+      name: '',
+      description: '',
+      projectLink: '',
+      technologies: '',
+      details: '',
+      submitted: false, // Track if the form has been submitted
+    }
+  ]);
+  
+  // Add a new project from a specific form
+  const addProject = (formIndex) => {
+    if (projectForms.value[formIndex]) {
+      projects.value.push({ 
+        ...projectForms.value[formIndex], 
+        id: projects.value.length + 1 
+      });
+      
+      // Mark the form as submitted to hide it
+      projectForms.value[formIndex].submitted = true;
+    }
+  };
+  
+  // Remove a project by index
+  const removeProject = (index) => {
+    projects.value.splice(index, 1);
+  };
+  </script>
+  
+  <style scoped>
+  /* Add any custom styles here */
+  </style>
+  
